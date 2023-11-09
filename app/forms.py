@@ -17,3 +17,16 @@ class EditPerson():
             self.name.errors.append("Name already in use")
             return False
         return True
+    
+class AddPerson():
+    def __init__(self):
+        self.name = wtforms.StringField("Name", validators=[wtforms.validators.DataRequired()])
+        self.submit = wtforms.SubmitField("Submit")
+
+    def validate(self):
+        if not wtforms.Form.validate(self):
+            return False
+        if db.session.query(Person).filter_by(name=self.name.data).first():
+            self.name.errors.append("Name already in use")
+            return False
+        return True
