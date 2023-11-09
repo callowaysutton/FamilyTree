@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add/Edit Person</title>
+</head>
+<body>
+    <h1>Add/Edit Person</h1>
+    <a href="{{ url_for('people') }}">List of People</a>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }}
+            {{ form.name(size=40) }}
+        </div>
+        <div>
+            {{ form.parents.label }}
+            {{ form.parents(size=40) }}
+        </div>
+        <div>
+            {{ form.siblings.label }}
+            {{ form.siblings(size=40) }}
+        </div>
+        <div>
+            {{ form.title.label }}
+            {{ form.title(rows=4, cols=40) }}
+        </div>
+        <div>
+            {{ form.bio.label }}
+            {{ form.bio(rows=6, cols=40) }}
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</body>
+</html>

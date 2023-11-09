@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Person</title>
+</head>
+<body>
+    <h1>Person Details</h1>
+    <a href="/people">Back to List</a>
+    <a href="{{ url_for('edit_person', id=person.id) }}">Edit</a>
+    <p><strong>Name:</strong> {{ person.name }}</p>
+    <p><Strong>Parents:</strong> <br />
+        {%- for parent in person.get_parents() %}
+        {{ parent.name -}}
+        <br />
+       {% endfor %}
+    </p>
+    <p><strong>Siblings:</strong> {{ person.siblings }}</p>
+    <p><strong>Title:</strong></p>
+    <p>{{ person.title }}</p>
+    <p><strong>Bio:</strong></p>
+    <p>{{ person.bio }}</p>
+</body>
+</html>

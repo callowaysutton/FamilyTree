@@ -1,5 +1,5 @@
 from app import app, db
-from app.forms import EditPerson, AddPerson
+from app.forms import PersonForm
 from flask import render_template, flash, redirect, url_for, request
 
 # Import the models
@@ -12,30 +12,37 @@ def index():
 @app.route("/people")
 def people():
     people = Person.query.all()
-    return render_template("people.html", people=people)
+    return render_template("all_people.html", people=people)
 
-@app.route('/edit/<int:person_id>', methods=['GET', 'POST'])
-def edit_person(person_id):
-    # Fetch the person object from the database based on the person_id
-    person = Person.query.get_or_404(person_id)
-    
-    # Create an instance of the EditPerson form
-    form = EditPerson(person=person)
+# Route for adding and editing a Person
+@app.route('/person/<int:id>', methods=['GET', 'POST'])
+def edit_person(id):
+    person = Person.query.get(id)
+    form = PersonForm(obj=person)
 
-    if form.validate_on_submit():
-        # Update the person's name with the new value
-        person.name = form.name.data
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(person)
         db.session.commit()
-        flash('Person information updated successfully', 'success')
-        return redirect(url_for('view', person_id=person.id))
+        return redirect(url_for('view_person', id=id))
 
-    return render_template('editperson.html', form=form, person=person)
+    return render_template('person_form.html', form=form, person=person)
 
-@app.route('/view/<int:person_id>', methods=['GET'])
-def view(person_id):
-    person = Person.query.get_or_404(person_id)
-    return render_template("view.html", person=person)
 
-@app.route("/add")
-def add():
-    return render_template("addperson.html", AddPerson=AddPerson)
+# Route for adding and editing a Person
+@app.route('/delete/<int:id>', methods=['POST'])
+def delete_person(id):
+    
+    person = Person.query.get(id)
+    if person:
+        # Delete the Person from the database
+        db.session.delete(person)
+        db.session.commit()
+        return redirect(url_for('people'))
+
+    return redirect(url_for('people'))
+
+# Route for viewing a Person
+@app.route('/view/<int:id>', methods=['GET'])
+def view_person(id):
+    person = Person.query.get(id)
+    return render_template('person_view.html', person=person)

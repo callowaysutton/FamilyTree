@@ -27,3 +27,9 @@ class Person(db.Model):
     
     def get_given_name(self):
         return self.get_name()[1:][::-1] # "[Calloway, Patrick]"
+    
+    def get_parents(self):
+        if self.parents:
+            return [Person.query.get(int(parent_id)) for parent_id in self.parents.split(",")]
+        else:
+            return []
