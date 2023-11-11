@@ -18,7 +18,9 @@ class Person(db.Model):
     # Bio
     bio = sqlalchemy.Column(sqlalchemy.Text)
     
-    # Get name as a list
+    def get_id(self):
+        return self.id
+    
     def get_name(self):
         return self.name.split(" ")[::-1] # "[Sutton, Patrick, Calloway]"
     
@@ -30,6 +32,12 @@ class Person(db.Model):
     
     def get_parents(self):
         if self.parents:
-            return [Person.query.get(int(parent_id)) for parent_id in self.parents.split(",")]
+            return [Person.query.get(int(parent_id)) for parent_id in self.parents.split(",") if parent_id != ""]
+        else:
+            return []
+    
+    def get_siblings(self):
+        if self.parents:
+            return [Person.query.get(int(sibling_id)) for sibling_id in self.siblings.split(",") if sibling_id != ""]
         else:
             return []

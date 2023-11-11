@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Family Tree Visualization</title>
+
+    <!-- Add the Bokeh CSS stylesheet -->
+    <link
+      href="https://cdn.bokeh.org/bokeh/release/bokeh-3.3.1.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Add the correct Bokeh JavaScript library reference -->
+    <script
+      type="text/javascript"
+      src="https://cdn.bokeh.org/bokeh/release/bokeh-3.3.1.min.js"
+    ></script>
+
+    <!-- Add the Bokeh CDN (Content Delivery Network) for additional resources -->
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.0.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.0.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.4.0.min.js"></script>
+
+    <!-- Add the Bokeh CDN for BokehJS plotting compatibility -->
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.3.1.min.js"></script>
+
+    {{ script|safe }}
+
+    <script>
+      // Function to adjust plot size based on window size
+      function adjustPlotSize() {
+        const plotDiv = document.getElementById("plot");
+        const plotWidth = window.innerWidth * 0.9; // Adjust the factor as needed
+        const plotHeight = window.innerHeight * 0.7; // Adjust the factor as needed
+        plotDiv.style.width = `${plotWidth}px`;
+        plotDiv.style.height = `${plotHeight}px`;
+      }
+
+      // Adjust the plot size when the window is resized
+      window.addEventListener("resize", adjustPlotSize);
+
+      // Initial adjustment on page load
+      window.addEventListener("load", adjustPlotSize);
+    </script>
+  </head>
+  <body>
+    <div class="container">
+    <h1 class="mt-4">Family Tree Visualization</h1>
+    <a href="{{ url_for('people') }}" class="btn btn-primary mt-3 mb-3">Family Index</a>
+    <div id="plot">{{ div|safe }}</div>
+    </div>
+  </body>
+</html>

@@ -12,21 +12,30 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <th>Name:</th>
+                    <th>Full Name:</th>
                     <td>{{ person.name }}</td>
+                </tr>
+                <tr>
+                    <th>ID:</th>
+                    <td>{{ person.id }}</td>
                 </tr>
                 <tr>
                     <th>Parents:</th>
                     <td>
                         {%- for parent in person.get_parents() %}
-                        {{ parent.name }}
+                        <a href="{{ url_for('view_person', id=parent.id) }}">{{ parent.name }}</a>
                         <br />
                         {% endfor %}
                     </td>
                 </tr>
                 <tr>
                     <th>Siblings:</th>
-                    <td>{{ person.siblings }}</td>
+                <td>
+                    {%- for sibling in person.get_siblings() %}
+                    <a href="{{ url_for('view_person', id=sibling.id) }}"> {{ sibling.name }}</a>
+                        <br />
+                    {% endfor %}
+                </td>
                 </tr>
                 <tr>
                     <th>Title:</th>
